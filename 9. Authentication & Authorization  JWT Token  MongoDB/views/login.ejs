@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG IN</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gray-800 p-4">
+        <nav class="flex justify-between items-center">
+            <h1 class="text-white text-lg font-bold">My App</h1>
+            <div class="space-x-4">
+                <a href="/" class="text-white hover:text-gray-300">Signup</a>
+                <a href="/login" class="text-white hover:text-gray-300">Login</a>
+                <a href="/logout" class="text-white hover:text-gray-300">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Form Section -->
+    <div class="flex items-center justify-center mt-10">
+        <div class="w-full max-w-xs">
+            
+            <form method="post" action="/login" class="bg-transparent shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h2 class="text-white text-2xl font-bold mb-4">login</h2>
+
+                <div class="mb-4">
+                    <label class="block text-white text-sm font-bold mb-2" for="email">
+                        Email
+                    </label>
+                    <input class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-white bg-transparent leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" name="email">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-white text-sm font-bold mb-2" for="password">
+                        Password
+                    </label>
+                    <input class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-white bg-transparent leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" name="password">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        login
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</body>
+<script src="/js/script.js"></script>
+
+</html>

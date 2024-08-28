@@ -1,0 +1,10 @@
+body{
+    background-color: rgb(26, 20, 20);
+    color: bisque;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/* Add this to your CSS file */
+.no-decoration {
+    list-style: none;
+}

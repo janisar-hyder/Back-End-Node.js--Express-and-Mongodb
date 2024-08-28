@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viewing Users</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="bg-gray-800">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <div class="flex lg:hidden">
+                <button type="button" class="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" aria-label="Open menu" id="menu-button">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="hidden lg:flex lg:gap-x-12">
+                <a href="/" class="text-sm font-semibold leading-6 text-gray-400">HOME</a>
+                <a href="showuser" class="text-sm font-semibold leading-6 text-white">View Users</a>
+            </div>
+    
+            <!-- Mobile menu -->
+            <div class="lg:hidden hidden" id="mobile-menu">
+                <a href="/" class="block text-sm font-semibold leading-6 text-gray-400 py-2">HOME</a>
+                <a href="/showuser" class="block text-sm font-semibold leading-6 text-white py-2">View Users</a>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="p-8 max-w-7xl mx-auto mt-10 rounded-lg shadow-md">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <% if (users.length > 0) { %>
+                <% users.forEach(function(e) { %>
+                    <div class="bg-gray-700 w-50 rounded-lg shadow-lg overflow-hidden">
+                        <img src="<%= e.image %>" alt="User Image" class="w-full h-60 object-cover">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold text-white"><%= e.name %></h2>
+                            <p class="text-sm text-gray-400"><%= e.email %></p>
+                            <div class="mt-6 flex justify-between">
+                                <a href="/update/<%= e._id %>" class="text-sm text-indigo-400 hover:underline">Edit</a>
+                                <a href=" /delete/<%= e._id %>" class="text-sm text-red-400 hover:underline">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+                <% } else { %>
+                    <h1 class="text-center text-xl font-semibold text-gray-400 opacity-70">No data available</h1>
+                <% } %>
+                
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

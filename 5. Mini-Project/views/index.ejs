@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <header class="bg-gray-800">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <!-- <div class="flex lg:flex-1">
+                <a href="#" class="-m-1.5 p-1.5">
+                    <span class="sr-only">Your Company</span>
+                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        alt="">
+                </a>
+            </div> -->
+            <div class="flex lg:hidden">
+                <button type="button"
+                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden lg:flex lg:gap-x-12">
+                <a href="#" class="text-sm font-semibold leading-6 text-white">HOME</a>
+                <a href="#" class="text-sm font-semibold leading-6 text-gray-400">READING</a>
+                <a href="#" class="text-sm font-semibold leading-6 text-gray-400">EDIT</a>
+                <a href="#" class="text-sm font-semibold leading-6 text-gray-400">Company</a>
+            </div>
+            <!-- <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                <a href="#" class="text-sm font-semibold leading-6 text-white">Log in <span
+                        aria-hidden="true">&rarr;</span></a>
+            </div> -->
+        </nav>
+        <!-- Mobile menu, show/hide based on menu open state. -->
+    </header>
+
+
+
+    <div class="flex  h-auto">
+        <div class="flex flex-col w-full p-10 space-y-4">
+            <form class="flex flex-col w-full space-y-4" action="/create" method="post">
+                <input type="text"
+                name="title"    
+                class="p-2 border border-gray-600 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-transparent"
+                    placeholder="Your Title...">
+                <textarea
+                    name="details" 
+                    class="p-2 border border-gray-600 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-transparent"
+                    placeholder="Description..."></textarea>
+                <button class="w-24 p-2 bg-blue-500 text-white rounded-md" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <% if (files.length > 0) { %>
+        <div class="flex flex-wrap w-full p-10 gap-4">
+            <% files.forEach(function(file) { %>
+                <div class="flex-1 min-w-[250px] max-w-sm rounded overflow-hidden shadow-lg bg-gray-700 p-6">
+                    <div class="mb-4">
+                        <h2 class="text-xl font-bold text-white"><%= file.filename.split(".txt")[0] %></h2>
+                    </div>
+                    <p class="text-gray-400 text-base mb-4">
+                        <%= file.content.substring(0, 100) %> <!-- Showing the first 100 characters -->
+                    </p>
+                    <div class="flex justify-between">
+                        <a href="/files/<%= file.filename %>" class="text-blue-400 hover:text-blue-600 font-semibold">Read More &rarr;</a>
+                        <a href="/edit/<%= file.filename %>" class="text-yellow-400 hover:text-yellow-600 font-semibold">Edit &rarr;</a>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <div class="flex flex-wrap w-full p-10 gap-4">
+            <div class="w-full text-center">
+                <h2 class="text-xl font-bold text-gray-400 opacity-70">
+                    No Data available
+                </h2>
+            </div>
+        </div>
+    <% } %>
+    
+    
+    
+
+
+
+
+</body>
+<script src="/js/script.js"></script>
+
+</html>
