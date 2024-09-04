@@ -24,8 +24,9 @@ app.get('/login', (req, res) => {
     res.render('login')
 });
 
-app.get('/profile', isLogedIn , (req, res) => {
-    res.send(req.user)
+app.get('/profile', isLogedIn , async (req, res) => {
+    let user = await userModel.findOne({email:  req.user.email});
+    res.render('profile', {user})
 });
 
 
@@ -37,7 +38,7 @@ app.get('/logout', (req, res) => {
 
 app.post('/register', async (req, res) => {
 
-    const { username, name, age, email, password } = req.body;
+    const { username, name, age, email, password, image } = req.body;
 
     let user = await userModel.findOne({ email });
     if (user) return res.status(400).send("Email already exists");
@@ -45,12 +46,12 @@ app.post('/register', async (req, res) => {
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
             let user = userModel.create({ 
-                username, name, age, email, password: hash 
+                username, name, age, email, password: hash, image
             });
 
             let token = jwt.sign({ email: email, userid: user._id }, 'shhhhh');
             res.cookie ('token', token);
-            res.send("Registered");
+            res.redirect('/profile');
 
         });
     });
@@ -61,22 +62,25 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     let user = await userModel.findOne({ email });
-    if (!user) return res.status(400).send('Something went wrong!');
+    if (!user) {
+        return res.status(400).send('<script>alert("Email or Password in incorrect"); window.location.href="/login";</script>');
+    }
 
     bcrypt.compare(password, user.password, function(err, result) {
         if (result) {
             let token = jwt.sign({ email: email, userid: user._id }, 'shhhhh');
-            res.cookie ('token', token);
-            res.status(200).send("Loged In Successfully");
+            res.cookie('token', token);
+            res.redirect('/profile');
         } 
-        else res.redirect('/login');
+        else res.status(400).send('<script>alert("Email or Password in incorrect"); window.location.href="/login";</script>');
     });
     
 });
 
 
+
 function isLogedIn(req, res, next){
-    if(req.cookies.token === "") res.send("You need to login first");
+    if(req.cookies.token === "") res.redirect("login");
     else{
         let data = jwt.verify(req.cookies.token, 'shhhhh');
         req.user = data;

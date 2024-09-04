@@ -1,4 +1,13 @@
 body,html{
     background-color: rgb(33, 30, 30);
     color: bisque;
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* Firefox */
+}
+.disable{
+    pointer-events: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
 }
