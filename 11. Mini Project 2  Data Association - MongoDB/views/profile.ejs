@@ -37,11 +37,11 @@
 
             <!-- Post Creation Section -->
             <div class="bg-gray-800 rounded-lg shadow-md p-6">
-                <form>
+                <form action="/post"  method="post">
                     <label for="postContent" class="block text-sm font-medium mb-2">Create a Post</label>
                     <textarea id="postContent" rows="4"
                         class="w-full p-3 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none"
-                        placeholder="What's on your mind?"></textarea>
+                        placeholder="What's on your mind?" name="content"></textarea>
                     <button type="submit"
                         class="mt-4 w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Post</button>
                 </form>
@@ -51,55 +51,27 @@
         <!-- Right Section: Post Cards -->
         <div class="w-full max-w-md ml-8 space-y-4">
             <!-- Example Post Card -->
-            <div class="bg-gray-800 rounded-lg shadow-md p-6">
-                <div class="text-left">
-                    <p class="text-sm text-gray-400">Posted by <span class="text-white font-semibold">Username</span></p>
-                    <p class="mt-2 text-white">This is an example post content. It can be a few lines long and provides a summary of what the user wants to share.</p>
-                    <div class="flex justify-between items-center mt-4">
-                        <a href="#" class="text-gray-400 hover:text-gray-300 flex items-center">
-                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927C9.684 1.26 12.316 1.26 12.951 2.927L13.6 4.702a1.5 1.5 0 001.343.983l2.215.18c1.788.145 2.523 2.321 1.119 3.352l-1.72 1.288a1.5 1.5 0 00-.501 1.548l.74 2.225c.548 1.646-1.43 2.961-2.83 1.943l-1.829-1.348a1.5 1.5 0 00-1.741 0l-1.829 1.348c-1.4 1.018-3.378-.297-2.83-1.943l.74-2.225a1.5 1.5 0 00-.501-1.548l-1.72-1.288c-1.404-1.03-.669-3.207 1.119-3.352l2.215-.18a1.5 1.5 0 001.343-.983l.649-1.775z" />
-                            </svg>
-                            Like
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-gray-300">Edit</a>
+            
+            <% user.post.reverse().forEach(function(post){ %>
+                <div class="bg-gray-800 rounded-lg shadow-md p-6">
+                    <div class="text-left">
+                        <p class="text-sm text-gray-400">Posted by <span class="text-white font-semibold"> <%= user.username%></span></p>
+                        <p class="mt-2 text-white"><%= post.content %></p>
+                        <div class="flex justify-between items-center mt-4">
+                            <a href="/like/<%=post._id%>" class="text-gray-400 hover:text-gray-300 flex items-center">
+                                <svg class="w-5 h-5 mr-1" fill="<%= post.likes.indexOf(user._id) === -1 ? 'currentColor' : 'yellow' %>" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927C9.684 1.26 12.316 1.26 12.951 2.927L13.6 4.702a1.5 1.5 0 001.343.983l2.215.18c1.788.145 2.523 2.321 1.119 3.352l-1.72 1.288a1.5 1.5 0 00-.501 1.548l.74 2.225c.548 1.646-1.43 2.961-2.83 1.943l-1.829-1.348a1.5 1.5 0 00-1.741 0l-1.829 1.348c-1.4 1.018-3.378-.297-2.83-1.943l.74-2.225a1.5 1.5 0 00-.501-1.548l-1.72-1.288c-1.404-1.03-.669-3.207 1.119-3.352l2.215-.18a1.5 1.5 0 001.343-.983l.649-1.775z" />
+                                </svg>
+                                <%= post.likes.indexOf(user._id) === -1 ? 'Like' : 'Liked by ' + user.username %>
+
+                            </a>
+                            
+                            <a href="/edit/<%=post._id%>" class="text-gray-400 hover:text-gray-300">Edit</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <%  }) %>
 
-            <!-- Additional Post Cards would go here -->
-            <div class="bg-gray-800 rounded-lg shadow-md p-6">
-                <div class="text-left">
-                    <p class="text-sm text-gray-400">Posted by <span class="text-white font-semibold">Username</span></p>
-                    <p class="mt-2 text-white">This is an example post content. It can be a few lines long and provides a summary of what the user wants to share.</p>
-                    <div class="flex justify-between items-center mt-4">
-                        <a href="#" class="text-gray-400 hover:text-gray-300 flex items-center">
-                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927C9.684 1.26 12.316 1.26 12.951 2.927L13.6 4.702a1.5 1.5 0 001.343.983l2.215.18c1.788.145 2.523 2.321 1.119 3.352l-1.72 1.288a1.5 1.5 0 00-.501 1.548l.74 2.225c.548 1.646-1.43 2.961-2.83 1.943l-1.829-1.348a1.5 1.5 0 00-1.741 0l-1.829 1.348c-1.4 1.018-3.378-.297-2.83-1.943l.74-2.225a1.5 1.5 0 00-.501-1.548l-1.72-1.288c-1.404-1.03-.669-3.207 1.119-3.352l2.215-.18a1.5 1.5 0 001.343-.983l.649-1.775z" />
-                            </svg>
-                            Like
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-gray-300">Edit</a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="bg-gray-800 rounded-lg shadow-md p-6">
-                <div class="text-left">
-                    <p class="text-sm text-gray-400">Posted by <span class="text-white font-semibold">Username</span></p>
-                    <p class="mt-2 text-white">This is an example post content. It can be a few lines long and provides a summary of what the user wants to share.</p>
-                    <div class="flex justify-between items-center mt-4">
-                        <a href="#" class="text-gray-400 hover:text-gray-300 flex items-center">
-                            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927C9.684 1.26 12.316 1.26 12.951 2.927L13.6 4.702a1.5 1.5 0 001.343.983l2.215.18c1.788.145 2.523 2.321 1.119 3.352l-1.72 1.288a1.5 1.5 0 00-.501 1.548l.74 2.225c.548 1.646-1.43 2.961-2.83 1.943l-1.829-1.348a1.5 1.5 0 00-1.741 0l-1.829 1.348c-1.4 1.018-3.378-.297-2.83-1.943l.74-2.225a1.5 1.5 0 00-.501-1.548l-1.72-1.288c-1.404-1.03-.669-3.207 1.119-3.352l2.215-.18a1.5 1.5 0 001.343-.983l.649-1.775z" />
-                            </svg>
-                            Like
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-gray-300">Edit</a>
-                    </div>
-                </div>
-            </div>
 
             
         </div>

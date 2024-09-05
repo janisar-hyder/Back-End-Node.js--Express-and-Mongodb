@@ -25,9 +25,36 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/profile', isLogedIn , async (req, res) => {
-    let user = await userModel.findOne({email:  req.user.email});
+    let user = await userModel.findOne({email:  req.user.email}).populate("post");
     res.render('profile', {user})
 });
+
+app.get('/like/:id', isLogedIn , async (req, res) => {
+    let postId = req.params.id.trim(); 
+    let post = await postModel.findOne({_id: postId}).populate("user");
+    if (post.likes.indexOf(req.user.userid) === -1) {
+        post.likes.push(req.user.userid);
+    }
+    else{
+        post.likes.splice(post.likes.indexOf(req.user.userid), 1)
+    }
+    
+    await post.save();
+    res.redirect('/profile');
+});
+
+app.get('/edit/:id', isLogedIn , async (req, res) => {
+    let pId = req.params.id.trim(); 
+    let post = await postModel.findOne({_id: pId}).populate("user");
+    res.render('edit', {post});
+});
+
+app.post('/update/:id', isLogedIn , async (req, res) => {
+    let pId = req.params.id.trim(); 
+    let post = await postModel.findOneAndUpdate({_id: pId}, {content : req.body.content});
+    res.redirect('/profile');
+});
+
 
 
 app.get('/logout', (req, res) => {
@@ -75,6 +102,20 @@ app.post('/login', async (req, res) => {
         else res.status(400).send('<script>alert("Email or Password in incorrect"); window.location.href="/login";</script>');
     });
     
+});
+
+app.post('/post', isLogedIn , async (req, res) => {
+    let user = await userModel.findOne({email:  req.user.email});
+    let {content} =  req.body;
+
+    let post = await postModel.create ({ 
+        user: user._id,
+        content
+        });
+    user.post.push (post._id);
+    await user.save();
+    res.redirect('/profile');
+ 
 });
 
 
