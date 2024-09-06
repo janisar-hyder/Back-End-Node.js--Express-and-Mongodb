@@ -23,8 +23,20 @@
         <!-- Left Section: Profile and Create Post -->
         <div class="w-full max-w-md space-y-8">
             <!-- Profile Section -->
+
             <div class="bg-gray-800 rounded-lg shadow-md p-6 flex items-center">
-                <img class="w-24 h-24 rounded-full mr-6" src="<%= user.image %>" alt="User Image">
+
+                <form action="/upload" method="POST" enctype="multipart/form-data" id="image-upload-form">
+                    <a class="relative group" id="image-container" onclick="document.getElementById('file-input').click();">
+                        <img class="w-24 h-24 rounded-full mr-6" src="/imgs/uploads/<%= user.image || 'default.png' %>" alt="">
+                        <div class="absolute w-24 h-24 inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span class="text-white">Change</span>
+                        </div>
+                    </a>
+                    <input type="file" id="file-input" name="userImage" style="display: none;" accept="image/*">
+                </form>
+                
+
                 <div class="text-left">
                     <h2 class="text-2xl font-semibold">
                         <%= user.name %>
@@ -34,6 +46,7 @@
                     <p class="text-gray-400">Age: <span class="text-white"><%= user.age %></span></p>
                 </div>
             </div>
+            
 
             <!-- Post Creation Section -->
             <div class="bg-gray-800 rounded-lg shadow-md p-6">
@@ -77,5 +90,10 @@
         </div>
     </div>
 </body>
-
+<script>
+    // Automatically submit the form when a file is selected
+    document.getElementById('file-input').addEventListener('change', function() {
+        document.getElementById('image-upload-form').submit();
+    });
+</script>
 </html>

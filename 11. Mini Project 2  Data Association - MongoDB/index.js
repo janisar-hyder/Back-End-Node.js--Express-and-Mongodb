@@ -1,10 +1,11 @@
 const express = require('express');
-const userModel = require('./models/user');
-const postModel = require('./models/post');
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+const userModel = require('./models/user');
+const postModel = require('./models/post');
+const upload =  require('./config/multerconfig');
 
 const app = express();
 const port = 3000;
@@ -62,27 +63,38 @@ app.get('/logout', (req, res) => {
     res.redirect('/login')
 });
 
+app.post('/upload', upload.single("userImage"), isLogedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    if (req.file) {
+        user.image = req.file.filename;
+    }
+    await user.save();
+    res.redirect('/profile');
+});
 
-app.post('/register', async (req, res) => {
 
-    const { username, name, age, email, password, image } = req.body;
 
+app.post('/register', upload.single("image"), async (req, res) => {
+    const { username, name, age, email, password } = req.body;
+    const image = req.file ? req.file.filename : 'default.png';
+    
     let user = await userModel.findOne({ email });
     if (user) return res.status(400).send("Email already exists");
 
     bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(password, salt, function (err, hash) {
-            let user = userModel.create({ 
+        bcrypt.hash(password, salt, async function (err, hash) {
+            let newUser = await userModel.create({
                 username, name, age, email, password: hash, image
             });
 
-            let token = jwt.sign({ email: email, userid: user._id }, 'shhhhh');
-            res.cookie ('token', token);
+            let token = jwt.sign({ email: email, userid: newUser._id }, 'shhhhh');
+            res.cookie('token', token);
             res.redirect('/profile');
-
         });
     });
 });
+
+
 
 app.post('/login', async (req, res) => {
 
@@ -119,6 +131,7 @@ app.post('/post', isLogedIn , async (req, res) => {
 });
 
 
+    
 
 function isLogedIn(req, res, next){
     if(req.cookies.token === "") res.redirect("login");
