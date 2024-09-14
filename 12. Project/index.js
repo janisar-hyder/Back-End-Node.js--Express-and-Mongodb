@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const router  = express.Router();
+require('dotenv').config();
 
 const db =  require('./config/mongoose-connection');
 const userRouter = require('./routes/userRouter');
@@ -15,6 +16,7 @@ const homeRouter = require('./routes/app');
 
 const app = express();
 const port = 3000;
+
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
