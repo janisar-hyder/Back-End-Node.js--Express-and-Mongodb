@@ -4,6 +4,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const router  = express.Router();
+
+const expressSession  = require('express-session');
+const flash  = require('connect-flash');
+
+
+
+
 require('dotenv').config();
 
 const db =  require('./config/mongoose-connection');
@@ -23,6 +30,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use (expressSession({
+    resave : false,
+    saveUninitialized : false,
+    secret : process.env.EXPRESS_SESSION_SECRECT,
+})
+);
+
+app.use (flash());
+
+
+
 
 
 app.use('/user', userRouter);
