@@ -102,7 +102,7 @@ app.post('/login', async (req, res) => {
 
     let user = await userModel.findOne({ email });
     if (!user) {
-        return res.status(400).send('<script>alert("Email or Password in incorrect"); window.location.href="/login";</script>');
+        return res.status(400).send('<script>alert("Email or Password is incorrect"); window.location.href="/login";</script>');
     }
 
     bcrypt.compare(password, user.password, function(err, result) {
