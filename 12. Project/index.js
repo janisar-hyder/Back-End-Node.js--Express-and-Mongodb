@@ -25,6 +25,7 @@ const app = express();
 const port = 3000;
 
 
+
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
@@ -37,6 +38,7 @@ app.use (expressSession({
     secret : process.env.EXPRESS_SESSION_SECRECT,
 })
 );
+
 
 app.use (flash());
 
