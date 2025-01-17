@@ -5,7 +5,6 @@ const postModel =  require('./models/post');
 const user = require('./models/user');
 
 
-
 const port = 3000;
 
 
